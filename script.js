@@ -1,7 +1,4 @@
-
-
-// const API_KEY = '356070aeaf32c704617acfc42f225215';
-                 
+const API_KEY = "356070aeaf32c704617acfc42f225215"; 
 
 function fetchWeather() {
     const city = document.getElementById("city").value;
@@ -11,19 +8,15 @@ function fetchWeather() {
         return;
     }
 
-    // Call the Flask backend instead of OpenWeather API directly
-    const weatherUrl = `https://your-backend-url.onrender.com/weather?city=${city}`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
 
     fetch(weatherUrl)
         .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                alert("City not found or API error");
-                return;
-            }
             updateTodayWeather(data);
+            fetchForecast(data.coord.lat, data.coord.lon);
         })
-        .catch(error => console.error("Error fetching weather data:", error));
+        .catch(error => alert("City not found or API error"));
 }
 
 function updateTodayWeather(data) {
